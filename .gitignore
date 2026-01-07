@@ -1,0 +1,12 @@
+# Generated outputs
+out/
+*.png
+*.csv
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+
+# OS cruft
+.DS_Store
