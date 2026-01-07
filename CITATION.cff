@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below."
+title: "GACRC: Phase-dependent Structure in Global Atomic Clock Residual Correlations"
+authors:
+  - family-names: White
+    given-names: Christopher Dean
+year: 2026
+repository-code: https://github.com/CollapseRider69/GACRC
+license: MIT
