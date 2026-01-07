@@ -1,14 +1,3 @@
-# GACRC
-Phase-dependent Structure in Global Atomic Clock Residual Correlations
-
-## License
-
-The code in this repository is released under the MIT License.
-
-The associated paper,
-"Phase-dependent Structure in Global Atomic Clock Residual Correlations",
-is licensed separately under CC BY 4.0.
-
 # Phase-dependent Structure in Global Atomic Clock Residual Correlations (GACRC)
 
 This repository contains analysis code used to generate the results and figures
@@ -45,7 +34,9 @@ the authoritative source.
 
 Required file naming pattern:
 
+```
 JPL0OPSFIN_YYYYDDD0000_01D_30S_CLK.CLK.gz
+```
 
 Data source:
 
@@ -75,7 +66,9 @@ canonical, unmodified source files.
 
 3. Create a zip archive containing the clock files, for example:
 
-   zip clocks.zip *.CLK.gz
+```bash
+zip clocks.zip *.CLK.gz
+```
 
 4. Retain the original JPL filenames inside the archive.  
    The analysis code expects a single zip archive containing the raw clock files.
@@ -111,9 +104,11 @@ You will be prompted for:
 Run this script once per station.  
 Rename each output file to the corresponding station code, for example:
 
-FAIR.csv  
-MAW1.csv  
-MKEA.csv  
+```
+FAIR.csv
+MAW1.csv
+MKEA.csv
+```
 
 ---
 
@@ -138,13 +133,15 @@ altitude-dependent term, and computes multiple correlation products.
 
 **Example:**
 
-python 2_Clock_Phase_Analysis.py  
---zip clocks.zip  
---stations FAIR MAW1  
---moon FAIR=FAIR.csv MAW1=MAW1.csv  
---out out/FAIR_MAW1  
---tol 60  
---rolling 3H  
+```bash
+python 2_Clock_Phase_Analysis.py \
+  --zip clocks.zip \
+  --stations FAIR MAW1 \
+  --moon FAIR=FAIR.csv MAW1=MAW1.csv \
+  --out out/FAIR_MAW1 \
+  --tol 60 \
+  --rolling 3H
+```
 
 **Key operations:**
 - Defines observed time drift as `tdrift = -offset`  
@@ -175,13 +172,17 @@ phase-binned residual statistics and plots.
 
 Phase is defined using a combined altitude–slope representation:
 
+```
 phi = atan2(z(altitude), z(slope)) ∈ [0, 2π)
+```
 
 **Example:**
 
-python 3_Pair_Residual_Phase-Binned.py  
---in out/FAIR_MAW1/FAIR_MAW1_pair.csv  
---out out/FAIR_MAW1/  
+```bash
+python 3_Pair_Residual_Phase-Binned.py \
+  --in out/FAIR_MAW1/FAIR_MAW1_pair.csv \
+  --out out/FAIR_MAW1/
+```
 
 **Outputs include:**
 - Phase-binned residual plots  
