@@ -1,0 +1,7 @@
+# Core scientific stack
+numpy>=1.24
+pandas>=2.0
+matplotlib>=3.7
+
+# Astronomy / ephemeris
+skyfield>=1.45
