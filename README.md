@@ -21,7 +21,9 @@ not redistribute raw GNSS clock data.
 - Quadrant-partitioned correlation statistics  
 - Phase-folded rolling correlation analysis  
 - Phase-binned residual plots and summary metrics  
-
+- Finite-time trajectory (LD-style) diagnostics of residuals  
+- Altitude- and slope-aligned visualization tools (linear and log scale)
+  
 ---
 
 ## Data Availability
@@ -77,7 +79,7 @@ zip clocks.zip *.CLK.gz
 
 ## Analysis Pipeline
 
-The analysis is performed in three stages.
+The analysis is performed in four stages.
 
 ---
 
@@ -187,7 +189,58 @@ python 3_Pair_Residual_Phase-Binned.py \
 **Outputs include:**
 - Phase-binned residual plots  
 - Bin counts  
-- Summary metrics (including π-inversion score)  
+- Summary metrics (including π-inversion score)
+
+---
+
+### 4. Finite-time Trajectory (LD-style) Diagnostics
+
+**Script:**  
+`ld_plots.py`
+
+This script computes a finite-time integral of the absolute residual time
+derivative over a symmetric window, M(t₀) = ∫ |dr/dt| dt 
+where `r(t)` is the clock residual and the integral is evaluated over a fixed
+±τ window centered on each time sample. The diagnostic is analogous to a data-based 
+Lagrangian descriptor in the sense of a finite-time trajectory integral and is used 
+to visualize structural features in residual trajectories when plotted against 
+lunar geometry (altitude or
+mirrored altitude).
+
+**Important:**  
+This diagnostic is used **only for visualization and exploratory inspection**.
+It does not define, select, or tune the primary effects reported in the paper.
+
+**Key features:**
+- Numerical derivative via finite differences  
+- Symmetric finite-time integration window (default: τ = 3 h)  
+- Optional altitude mirroring  
+- Optional logarithmic vertical scale  
+- Single-panel or stacked two-panel figures  
+
+**Example (single plot):**
+
+```bash
+python ld_plots.py single \
+  --csv out/HOB2_MKEA/HOB2_MKEA_pair.csv \
+  --resid resid_MKEA \
+  --alt MKEA_alt_deg \
+  --mirror
+```
+
+**Example (stacked linear + log plot):**
+
+```bash
+python ld_plots.py stacked \
+  --top_csv out/HOB2_MKEA/HOB2_MKEA_pair.csv \
+  --top_resid resid_MKEA \
+  --top_alt MKEA_alt_deg \
+  --bottom_csv out/HOB2_MATE/HOB2_MATE_pair.csv \
+  --bottom_resid resid_MATE \
+  --bottom_alt MATE_alt_deg \
+  --bottom_logy \
+  --out ld_examples_stacked.png
+```
 
 ---
 
@@ -206,5 +259,6 @@ See the `LICENSE` file for details.
 ## Notes
 
 This repository is intended for reproducibility and inspection of the analysis
-pipeline only. No causal or physical interpretation is implied by the code
-itself; interpretation is discussed in the accompanying paper.
+pipeline only. The included diagnostics provide multiple complementary views of
+the same residual data but do not imply causal interpretation. Physical context
+and interpretation are discussed exclusively in the accompanying paper.
